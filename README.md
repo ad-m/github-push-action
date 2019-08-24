@@ -12,12 +12,13 @@ An example workflow to authenticate with Google Cloud Platform:
 ```yaml
 jobs:
   build:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
 ...
-    - run: npm install
-    - uses: actions/checkout@master
+    - run: |
+        ...
+    - uses: ad-m/git-push-action@master
 ```
 
 Subsequent actions in the workflow will then be able to use `gcloud` as that user ([see `cli` for examples](/cli)).
