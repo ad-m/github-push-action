@@ -1,8 +1,9 @@
 name: 'GitHub Push'
 description: 'Pushing to GitHub repository local changes'
-author: 'ad-m' 
-icon: upload-cloud
-color: green
+author: 'ad-m'
+branding:
+  icon: upload-cloud
+  color: green
 inputs:
   github_token:
     description: 'Token for the repo. Can be passed in using {{ secrets.GITHUB_TOKEN }}'
