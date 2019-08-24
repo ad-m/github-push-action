@@ -1,5 +1,5 @@
-name: 'Git Push'
-description: 'Pushing to Git repository local changes'
+name: 'GitHub Push'
+description: 'Pushing to GitHub repository local changes'
 author: 'ad-m'
 inputs:
   github_token:
