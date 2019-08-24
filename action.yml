@@ -2,7 +2,7 @@ name: 'Git Push'
 description: 'Pushing to Git repository local changes'
 author: 'ad-m'
 inputs:
-  repo-token:
+  github_token:
     description: 'Token for the repo. Can be passed in using {{ secrets.GITHUB_TOKEN }}'
     required: true
   branch:
