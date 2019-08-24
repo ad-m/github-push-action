@@ -19,6 +19,8 @@ jobs:
     - run: |
         ...
     - uses: ad-m/git-push-action@master
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 Subsequent actions in the workflow will then be able to use `gcloud` as that user ([see `cli` for examples](/cli)).
