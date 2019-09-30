@@ -6,4 +6,4 @@ echo "Push to branch ${INPUT_BRANCH:=master}";
 };
 
 header=$(echo -n "ad-m:${INPUT_GITHUB_TOKEN}" | base64)
-git -c http.extraheader="AUTHORIZATION: basic $header" push origin HEAD:${INPUT_BRANCH};
+git -c http.extraheader="AUTHORIZATION: basic $header" push origin HEAD:${INPUT_BRANCH} --follow-tags;
