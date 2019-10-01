@@ -12,6 +12,9 @@ inputs:
     description: 'Destination branch to push changes'
     required: false
     default: 'master'
+  force:
+    description: 'Determines if force push is used'
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
