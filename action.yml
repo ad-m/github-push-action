@@ -15,6 +15,10 @@ inputs:
   force:
     description: 'Determines if force push is used'
     required: false
+  directory:
+    description: 'Directory to change to before pushing.'
+    required: false
+    default: '.'
 runs:
   using: 'docker'
   image: 'Dockerfile'
