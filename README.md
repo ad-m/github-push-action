@@ -22,6 +22,14 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+### Inputs
+
+| name | value | default | description |
+| ---- | ----- | ------- | ----------- |
+| github_token | string | | Token for the repo. Can be passed in using {{ secrets.GITHUB_TOKEN }}'. |
+| branch | string | 'master' | Destination branch to push changes. |
+| force | boolean | false | Determines if force push is used. |
+
 ## License
 
 The Dockerfile and associated scripts and documentation in this project are released under the [MIT License](LICENSE).
