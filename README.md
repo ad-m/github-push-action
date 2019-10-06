@@ -30,6 +30,7 @@ jobs:
 | branch | string | 'master' | Destination branch to push changes. |
 | force | boolean | false | Determines if force push is used. |
 | directory | string | '.' | Directory to change to before pushing. |
+| repository | string | '' | Repository name. Default or empty repository name represents current github repository. |
 
 ## License
 
