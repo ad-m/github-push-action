@@ -17,12 +17,12 @@ jobs:
     - name: Create local changes
       run: |
         ...
-    - name: Add files
+    - name: Commit files
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git commit -m "Add changes" -a
-    - name: Commit changes
+    - name: Push changes
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
