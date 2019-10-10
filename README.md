@@ -2,6 +2,12 @@
 
 The GitHub Actions for pushing to GitHub repository local changes authorizing using GitHub token.
 
+With ease:
+- update new code placed in the repository, e.g. by running a linter on it,
+- track changes in script results using Git as archive,
+- publish page using GitHub-Pages,
+- mirror changes to a separate repository.
+
 ## Usage
 
 ### Example Workflow file
