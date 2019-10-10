@@ -32,10 +32,11 @@ jobs:
 
 | name | value | default | description |
 | ---- | ----- | ------- | ----------- |
-| github_token | string | | Token for the repo. Can be passed in using {{ secrets.GITHUB_TOKEN }}'. |
+| github_token | string | | Token for the repo. Can be passed in using `{{ secrets.GITHUB_TOKEN }}`. |
 | branch | string | 'master' | Destination branch to push changes. |
 | force | boolean | false | Determines if force push is used. |
 | directory | string | '.' | Directory to change to before pushing. |
+| repository | string | '' | Repository name. Default or empty repository name represents current github repository. If you want to push to other repository, you should make a [personal access token](https://github.com/settings/tokens) and use it as the `github_token` input.  |
 
 ## License
 
