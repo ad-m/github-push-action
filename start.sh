@@ -18,8 +18,6 @@ fi
 
 cd ${INPUT_DIRECTORY}
 
-# Ensure that the remote of the git repository of the current directory still is the repository where the github action is executed
-git remote add origin https://github.com/${GITHUB_REPOSITORY} || git remote set-url origin https://github.com/${GITHUB_REPOSITORY} || true
+remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
-header=$(echo -n "ad-m:${INPUT_GITHUB_TOKEN}" | base64)
-git -c http.extraheader="AUTHORIZATION: basic $header" push origin HEAD:${INPUT_BRANCH} --follow-tags $_FORCE_OPTION;
+git push "${remote_repo}" HEAD:${INPUT_BRANCH} --follow-tags $_FORCE_OPTION;
