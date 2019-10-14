@@ -1,0 +1,16 @@
+on:
+  branches:
+      - master
+  schedule:
+  # Run at 12:00 in working days
+  - cron: 0 12 * * 0-5
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Push changes
+      uses: ad-m/report-link-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
