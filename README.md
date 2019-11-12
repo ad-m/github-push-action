@@ -28,6 +28,9 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git commit -m "Add changes" -a
+    - name: Pull changes
+      run: |
+        git pull --rebase
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
@@ -43,6 +46,18 @@ jobs:
 | force | boolean | false | Determines if force push is used. |
 | directory | string | '.' | Directory to change to before pushing. |
 | repository | string | '' | Repository name. Default or empty repository name represents current github repository. If you want to push to other repository, you should make a [personal access token](https://github.com/settings/tokens) and use it as the `github_token` input.  |
+
+### Caveats
+
+Please note that a race condition is possible if you try to run workflows of the same repository in parallel and changes are present in one or both of the workflows. In order to avoid this, you should ensure the following line is added to your workflow:
+
+```yaml
+- name: Pull changes
+  run: |
+    git pull --rebase
+```
+
+See [the example workflow file](#example-workflow-file).
 
 ## License
 
