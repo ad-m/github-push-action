@@ -10,8 +10,6 @@ jobs:
  
     steps:
     - uses: actions/checkout@v1
-    - name: Build Docker image
-      run: docker build . --tag my-image-name:$(date +%s)
     - name: Verify action syntax 
       # The action should not publish any real changes, but should succeed.
       uses: './'
