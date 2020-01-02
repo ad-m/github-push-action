@@ -19,6 +19,9 @@ inputs:
   force:
     description: 'Determines if force push is used'
     required: false
+  tags:
+    description: 'Determines if --tags is used'
+    required: false
   directory:
     description: 'Directory to change to before pushing.'
     required: false
