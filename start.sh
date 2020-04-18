@@ -18,7 +18,7 @@ if ${INPUT_FORCE}; then
     _FORCE_OPTION='--force'
 fi
 
-if ${TAGS}; then
+if ${INPUT_TAGS}; then
     _TAGS='--tags'
 fi
 
