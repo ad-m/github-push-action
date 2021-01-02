@@ -28,8 +28,8 @@ jobs:
         ...
     - name: Commit files
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
         git commit -m "Add changes" -a
     - name: Push changes
       uses: ad-m/github-push-action@master
@@ -43,7 +43,7 @@ jobs:
 | name | value | default | description |
 | ---- | ----- | ------- | ----------- |
 | github_token | string | | Token for the repo. Can be passed in using `${{ secrets.GITHUB_TOKEN }}`. |
-| branch | string | | Destination branch to push changes. Can be passed in using `${{ github.ref }}`. |
+| branch | string | master | Destination branch to push changes. Can be passed in using `${{ github.ref }}`. |
 | force | boolean | false | Determines if force push is used. |
 | tags | boolean | false | Determines if `--tags` is used. |
 | directory | string | '.' | Directory to change to before pushing. |
