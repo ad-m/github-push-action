@@ -43,7 +43,7 @@ jobs:
 | name | value | default | description |
 | ---- | ----- | ------- | ----------- |
 | github_token | string | | Token for the repo. Can be passed in using `${{ secrets.GITHUB_TOKEN }}`. |
-| branch | string | master | Destination branch to push changes. Can be passed in using `${{ github.ref }}`. |
+| branch | string | main | Destination branch to push changes. Can be passed in using `${{ github.ref }}`. |
 | force | boolean | false | Determines if force push is used. |
 | tags | boolean | false | Determines if `--tags` is used. |
 | directory | string | '.' | Directory to change to before pushing. |
