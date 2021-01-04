@@ -3,6 +3,7 @@
 The GitHub Actions for pushing to GitHub repository local changes authorizing using GitHub token.
 
 With ease:
+
 - update new code placed in the repository, e.g. by running a linter on it,
 - track changes in script results using Git as archive,
 - publish page using GitHub-Pages,
@@ -43,7 +44,7 @@ jobs:
 | name | value | default | description |
 | ---- | ----- | ------- | ----------- |
 | github_token | string | | Token for the repo. Can be passed in using `${{ secrets.GITHUB_TOKEN }}`. |
-| branch | string | main | Destination branch to push changes. Can be passed in using `${{ github.ref }}`. |
+| branch | string | (default) | Destination branch to push changes. Can be passed in using `${{ github.ref }}`. |
 | force | boolean | false | Determines if force push is used. |
 | tags | boolean | false | Determines if `--tags` is used. |
 | directory | string | '.' | Directory to change to before pushing. |
