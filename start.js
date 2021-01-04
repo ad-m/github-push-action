@@ -41,7 +41,7 @@ const trim = (value, charlist) => trimLeft(trimRight(value, charlist));
 
 const main = async () => {
     let branch = process.env.INPUT_BRANCH;
-    const repository = trim(process.env.INPUT_REPOSITORY);
+    const repository = trim(process.env.INPUT_REPOSITORY || process.env.GITHUB_REPOSITORY);
     if (!branch) {
         const headers = {
             'User-Agent': 'github.com/ad-m/github-push-action'
