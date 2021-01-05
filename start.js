@@ -11,7 +11,7 @@ const get = (url, options = {}) => new Promise((resolve, reject) => https
             const body = Buffer.concat(chunks).toString('utf-8');
             if (res.statusCode < 200 || res.statusCode > 300) {
                 return reject(Object.assign(
-                    new Error(`Invalid status code: ${res.statusCode}`),
+                    new Error(`Invalid status code '${res.statusCode}' for url '${url}'`),
                     { res, body }
                 ));
             }
