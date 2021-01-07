@@ -16,6 +16,11 @@ With ease:
 An example workflow to authenticate with GitHub Platform:
 
 ```yaml
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -36,8 +41,28 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+```
+
+> NOTE: For `pull_request` events change `${{ github.ref }}` -> `${{ github.head_ref }}`
+
+**Example**
+
+```yaml
+
+on:
+  pull_request:
+    branches:
+      - main
+
+...
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ github.head_ref }}
 ```
+
 
 ### Inputs
 
