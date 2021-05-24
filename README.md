@@ -44,11 +44,11 @@ jobs:
 | name | value | default | description |
 | ---- | ----- | ------- | ----------- |
 | github_token | string |  `${{ github.token }}` | [GITHUB_TOKEN](https://docs.github.com/en/free-pro-team@latest/actions/reference/authentication-in-a-workflow#using-the-github_token-in-a-workflow) or a repo scoped [Personal Access Token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token). |
-| branch | string | (default) | Destination branch to push changes. Can be passed in using `${{ github.ref }}`. |
+| branch | string | (default) | Destination branch to push changes. <br /> Can be passed in using `${{ github.ref }}`. |
 | force | boolean | false | Determines if force push is used. |
 | tags | boolean | false | Determines if `--tags` is used. |
 | directory | string | '.' | Directory to change to before pushing. |
-| repository | string | '' | Repository name. Default or empty repository name represents current github repository. If you want to push to other repository, you should make a [personal access token](https://github.com/settings/tokens) and use it as the `github_token` input.  |
+| repository | string | '' | Repository name. <br /> Default or empty repository name represents current github repository. <br /> If you want to push to other repository, you should make a <br /> [personal access token](https://github.com/settings/tokens) and use it as the `github_token` input.  |
 
 ## License
 
