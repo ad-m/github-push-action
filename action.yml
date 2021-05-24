@@ -8,7 +8,7 @@ inputs:
   github_token:
     description: 'GitHub token or PAT token'
     required: true
-    default: ${{ github.token }]
+    default: ${{ github.token }}
   repository:
     description: 'Repository name to push. Default or empty value represents current github repository (${GITHUB_REPOSITORY})'
     default: ''
