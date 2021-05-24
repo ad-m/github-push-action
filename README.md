@@ -43,7 +43,7 @@ jobs:
 
 | name | value | default | description |
 | ---- | ----- | ------- | ----------- |
-| github_token | string | | Token for the repo. Can be passed in using `${{ secrets.GITHUB_TOKEN }}`. |
+| github_token | string | | [GITHUB_TOKEN](https://docs.github.com/en/free-pro-team@latest/actions/reference/authentication-in-a-workflow#using-the-github_token-in-a-workflow) or a repo scoped [Personal Access Token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token). |
 | branch | string | (default) | Destination branch to push changes. Can be passed in using `${{ github.ref }}`. |
 | force | boolean | false | Determines if force push is used. |
 | tags | boolean | false | Determines if `--tags` is used. |
