@@ -48,7 +48,7 @@ jobs:
 | force | boolean | false | Determines if force push is used. |
 | tags | boolean | false | Determines if `--tags` is used. |
 | directory | string | '.' | Directory to change to before pushing. |
-| repository | string | '' | Repository name. <br /> Default or empty repository name represents current github repository. <br /> If you want to push to other repository, you should make a <br /> [personal access token](https://github.com/settings/tokens) and use it as the `github_token` input.  |
+| repository | string | '' | Repository name. <br /> Default or empty repository name represents <br /> current github repository. <br /> If you want to push to other repository, you should make a <br /> [personal access token](https://github.com/settings/tokens) and use it as the `github_token` input.  |
 
 ## License
 
