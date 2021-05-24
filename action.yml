@@ -6,7 +6,7 @@ branding:
   color: green
 inputs:
   github_token:
-    description: 'Github token or PAT token'
+    description: 'GitHub token or PAT token'
     required: true
     default: ${{ github.token }]
   repository:
