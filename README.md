@@ -13,12 +13,12 @@ With ease:
 
 ### Example Workflow file
 
-An example workflow to authenticate with GitHub Platform:
+An example workflow to authenticate with GitHub Platform: 
 
 ```yaml
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest 
     steps:
     - uses: actions/checkout@v2
       with:
