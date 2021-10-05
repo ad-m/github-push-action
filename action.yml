@@ -6,8 +6,9 @@ branding:
   color: green
 inputs:
   github_token:
-    description: 'Token for the repo. Can be passed in using $\{{ secrets.GITHUB_TOKEN }}'
+    description: 'GitHub token or PAT token'
     required: true
+    default: ${{ github.token }}
   repository:
     description: 'Repository name to push. Default or empty value represents current github repository (${GITHUB_REPOSITORY})'
     default: ''
