@@ -2,7 +2,7 @@ name: 'GitHub Push'
 description: 'Pushing to GitHub repository local changes'
 author: 'ad-m'
 branding:
-  icon: upload-cloud
+  icon: upload-cloud 
   color: green
 inputs:
   github_token:
