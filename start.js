@@ -42,12 +42,15 @@ const trim = (value, charlist) => trimLeft(trimRight(value, charlist));
 const main = async () => {
     let branch = process.env.INPUT_BRANCH;
     const repository = trim(process.env.INPUT_REPOSITORY || process.env.GITHUB_REPOSITORY);
+    const github_url = trim(process.env.INPUT_GITHUB_URL)
     if (!branch) {
         const headers = {
             'User-Agent': 'github.com/ad-m/github-push-action'
         };
         if (process.env.INPUT_GITHUB_TOKEN) headers.Authorization = `token ${process.env.INPUT_GITHUB_TOKEN}`;
-        const body = JSON.parse(await get(`https://api.github.com/repos/${repository}`, { headers }))
+        let api_url = 'api.github.com';
+        if (github_url !== 'github.com') api_url = github_url + '/api/v3';
+        const body = JSON.parse(await get(`https://${api_url}/repos/${repository}`, { headers }))
         branch = body.default_branch;
     }
     await exec('bash', [path.join(__dirname, './start.sh')], {
@@ -55,6 +58,7 @@ const main = async () => {
             ...process.env,
             INPUT_BRANCH: branch,
             INPUT_REPOSITORY: repository,
+            INPUT_GITHUB_URL: github_url,
         }
     });
 };
