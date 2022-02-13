@@ -1,11 +1,7 @@
 name: Action CI
 
 on:
-  pull_request_target:
-    types:
-      - opened
-    branches: [master, main]
-  push:
+  pull_request:
     branches: [master, main]
 
 jobs:
@@ -15,10 +11,13 @@ jobs:
     runs-on: ubuntu-latest
  
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
+
     - name: Verify action syntax 
       # The action should not publish any real changes, but should succeed.
       uses: './'
       with:
         github_token: '${{ secrets.GITHUB_TOKEN }}'
-        branch: '${{ github.ref }}'
+        branch: '${{ github.event.pull_request.head.repo.default_branch }}'
+        repository: '${{ github.event.pull_request.head.repo.full_name }}'
+        test: true
