@@ -7,7 +7,6 @@ With ease:
 - update new code placed in the repository, e.g. by running a linter on it,
 - track changes in script results using Git as archive,
 - publish page using GitHub-Pages,
-- push changes to a hosted GitHub Enterprise Server instance,
 - mirror changes to a separate repository.
 
 ## Usage
@@ -45,7 +44,6 @@ jobs:
 | name | value | default | description |
 | ---- | ----- | ------- | ----------- |
 | github_token | string |  `${{ github.token }}` | [GITHUB_TOKEN](https://docs.github.com/en/free-pro-team@latest/actions/reference/authentication-in-a-workflow#using-the-github_token-in-a-workflow) <br /> or a repo scoped <br /> [Personal Access Token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token). |
-| github_url | string | `${{ github.server_url }}` | Specify the GitHub Enterprise or GitHub url|
 | branch | string | (default) | Destination branch to push changes. <br /> Can be passed in using `${{ github.ref }}`. |
 | force | boolean | false | Determines if force push is used. |
 | tags | boolean | false | Determines if `--tags` is used. |
