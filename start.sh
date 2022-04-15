@@ -30,3 +30,6 @@ else:
   git push "${remote_repo}" HEAD:${INPUT_BRANCH} --follow-tags $_FORCE_OPTION $_TAGS;
 fi
 
+git config --local --add safe.directory ${INPUT_DIRECTORY}
+
+git push "${remote_repo}" HEAD:${INPUT_BRANCH} --follow-tags $_FORCE_OPTION $_TAGS;
