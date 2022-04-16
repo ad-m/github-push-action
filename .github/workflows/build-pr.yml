@@ -20,4 +20,3 @@ jobs:
         github_token: '${{ secrets.GITHUB_TOKEN }}'
         branch: '${{ github.event.pull_request.head.repo.default_branch }}'
         repository: '${{ github.event.pull_request.head.repo.full_name }}'
-        test: true

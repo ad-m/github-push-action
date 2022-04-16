@@ -24,12 +24,6 @@ fi
 cd ${INPUT_DIRECTORY}
 
 remote_repo="${INPUT_GITHUB_URL_PROTOCOL}//${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@${INPUT_GITHUB_URL}/${REPOSITORY}.git"
-if ${INPUT_TEST}; then
-  exit 0
-else:
-  git push "${remote_repo}" HEAD:${INPUT_BRANCH} --follow-tags $_FORCE_OPTION $_TAGS;
-fi
-
 git config --local --add safe.directory ${INPUT_DIRECTORY}
 
 git push "${remote_repo}" HEAD:${INPUT_BRANCH} --follow-tags $_FORCE_OPTION $_TAGS;

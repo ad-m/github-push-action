@@ -30,9 +30,6 @@ inputs:
     description: 'Directory to change to before pushing.'
     required: false
     default: '.'
-  test:
-    description: 'Define the test mode'
-    required: false
 runs:
   using: 'node12'
   main: 'start.js'
