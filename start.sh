@@ -31,4 +31,6 @@ fi
 
 git config --local --add safe.directory ${INPUT_DIRECTORY}
 
+git config --local --add safe.directory ${INPUT_DIRECTORY}
+
 git push "${remote_repo}" HEAD:${INPUT_BRANCH} --follow-tags $_FORCE_OPTION $_TAGS;
