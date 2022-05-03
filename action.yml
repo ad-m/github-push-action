@@ -9,6 +9,10 @@ inputs:
     description: 'GitHub token or PAT token'
     required: true
     default: ${{ github.token }}
+  github_url:
+    description: 'GitHub url or GitHub Enterprise url'
+    required: true
+    default: ${{ github.server_url }}
   repository:
     description: 'Repository name to push. Default or empty value represents current github repository (${GITHUB_REPOSITORY})'
     default: ''
