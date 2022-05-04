@@ -39,37 +39,11 @@ jobs:
         branch: ${{ github.ref }}
 ```
 
-An example workflow to authenticate with GitHub Platform via Deploy Keys or in general SSH:
-
-```yaml
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
-    - name: Create local changes
-      run: |
-        ...
-    - name: Commit files
-      run: |
-        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git commit -m "Add changes" -a
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        branch: ${{ github.ref }}
-	ssh: true
-```
-
 ### Inputs
 
 | name | value | default | description |
 | ---- | ----- | ------- | ----------- |
 | github_token | string  |  `${{ github.token }}` | [GITHUB_TOKEN](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow) <br /> or a repo scoped <br /> [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). |
-| ssh | boolean | false | Determines if ssh is used. |    
 | branch | string | (default) | Destination branch to push changes. <br /> Can be passed in using `${{ github.ref }}`. |
 | force | boolean | false | Determines if force push is used. |
 | tags | boolean | false | Determines if `--tags` is used. |

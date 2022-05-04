@@ -13,9 +13,6 @@ inputs:
     description: 'GitHub url or GitHub Enterprise url'
     required: true
     default: ${{ github.server_url }}
-  ssh:
-    description: 'Specify if ssh should be used'
-    required: false
   repository:
     description: 'Repository name to push. Default or empty value represents current github repository (${GITHUB_REPOSITORY})'
     default: ''
