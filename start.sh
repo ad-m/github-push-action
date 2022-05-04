@@ -23,13 +23,7 @@ fi
 
 cd ${INPUT_DIRECTORY}
 
-
-if ${INPUT_SSH}; then
-    remote_repo="git@${INPUT_GITHUB_URL}:${REPOSITORY}.git"
-else
-    remote_repo="${INPUT_GITHUB_URL_PROTOCOL}//${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@${INPUT_GITHUB_URL}/${REPOSITORY}.git"
-fi
-
+remote_repo="${INPUT_GITHUB_URL_PROTOCOL}//${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@${INPUT_GITHUB_URL}/${REPOSITORY}.git"
 git config --local --add safe.directory ${INPUT_DIRECTORY}
 
 git push "${remote_repo}" HEAD:${INPUT_BRANCH} --follow-tags $_FORCE_OPTION $_TAGS;
