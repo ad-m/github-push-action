@@ -61,6 +61,7 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         branch: ${{ github.ref }}
+	ssh: true
 ```
 
 ### Inputs
