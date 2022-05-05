@@ -14,7 +14,7 @@ echo "Push to branch $INPUT_BRANCH";
 };
 
 if ${INPUT_FORCE}; then
-    _FORCE_OPTION='--force-with-lease'
+    _FORCE_OPTION='--force'
 fi
 
 if ${INPUT_TAGS}; then
