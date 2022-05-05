@@ -16,7 +16,6 @@ inputs:
   ssh:
     description: 'Specify if ssh should be used'
     required: false
-    default: ''
   repository:
     description: 'Repository name to push. Default or empty value represents current github repository (${GITHUB_REPOSITORY})'
     default: ''
