@@ -23,6 +23,9 @@ inputs:
   force:
     description: 'Determines if force push is used'
     required: false
+  pull_first:
+    description: 'Determines if the action should pull before the execution of the push command'
+    required: false
   tags:
     description: 'Determines if --tags is used'
     required: false
