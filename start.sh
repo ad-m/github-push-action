@@ -2,6 +2,7 @@
 set -e
 
 INPUT_FORCE=${INPUT_FORCE:-false}
+INPUT_FORCE_WITH_LEASE=${INPUT_FORCE_WITH_LEASE:-false}
 INPUT_SSH=${INPUT_SSH:-false}
 INPUT_TAGS=${INPUT_TAGS:-false}
 INPUT_DIRECTORY=${INPUT_DIRECTORY:-'.'}
@@ -13,6 +14,19 @@ echo "Push to branch $INPUT_BRANCH";
     echo 'Missing input "github_token: ${{ secrets.GITHUB_TOKEN }}".';
     exit 1;
 };
+
+if ${INPUT_FORCE} && ${INPUT_FORCE_WITH_LEASE}; then
+  echo 'Please, specify only force or force_with_lease and not both.';
+  exit 1;
+fi
+
+if ${INPUT_FORCE}; then
+    _FORCE_OPTION='--force'
+fi
+
+if ${INPUT_FORCE_WITH_LEASE}; then
+    _FORCE_OPTION='--force-with-lease'
+fi
 
 if ${INPUT_TAGS}; then
     _TAGS='--tags'
@@ -28,4 +42,8 @@ fi
 
 git config --local --add safe.directory ${INPUT_DIRECTORY}
 
-git push "${remote_repo}" HEAD:${INPUT_BRANCH} --follow-tags $_FORCE_OPTION $_TAGS;
+if ! ${INPUT_FORCE_WITH_LEASE}; then
+  ADDITIONAL_PARAMETERS="${remote_repo} HEAD:${INPUT_BRANCH}"
+fi
+
+git push $ADDITIONAL_PARAMETERS --follow-tags $_FORCE_OPTION $_TAGS;

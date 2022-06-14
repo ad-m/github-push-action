@@ -39,6 +39,53 @@ jobs:
         branch: ${{ github.ref }}
 ```
 
+An example workflow to use the force-with-lease parameter to force push to a repository:
+
+```yaml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+    - name: Commit files
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -m "Add changes" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        force_with_lease: true
+```
+
+An example workflow to update/ overwrite an existing tag:
+
+```yaml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+    - name: Commit files
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git tag -d $GITHUB_REF_NAME
+        git tag $GITHUB_REF_NAME
+        git commit -m "Add changes" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        force: true
+        tags: true
+```
+
 An example workflow to authenticate with GitHub Platform via Deploy Keys or in general SSH:
 
 ```yaml
@@ -67,18 +114,21 @@ jobs:
 
 ### Inputs
 
-| name | value | default | description |
-| ---- | ----- | ------- | ----------- |
-| github_token | string  |  `${{ github.token }}` | [GITHUB_TOKEN](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow) <br /> or a repo scoped <br /> [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). |
-| branch | string | (default) | Destination branch to push changes. <br /> Can be passed in using `${{ github.ref }}`. |
-| force | boolean | false | Determines if force push is used. |
-| tags | boolean | false | Determines if `--tags` is used. |
-| directory | string | '.' | Directory to change to before pushing. |
-| repository | string | '' | Repository name. <br /> Default or empty repository name represents <br /> current github repository. <br /> If you want to push to other repository, <br /> you should make a [personal access token](https://github.com/settings/tokens) <br /> and use it as the `github_token` input.  |
+| name             | value | default | description                                                                                                                                                                                                                                                                                                     |
+|------------------| ----- | ------- |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| github_token     | string  |  `${{ github.token }}` | [GITHUB_TOKEN](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow) <br /> or a repo scoped <br /> [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). |
+| ssh              | boolean  | false | Determines if ssh/ Deploy Keys is used.                                                                                                                                                                                                                                                                          |
+| branch           | string | (default) | Destination branch to push changes. <br /> Can be passed in using `${{ github.ref }}`.                                                                                                                                                                                                                          |
+| force            | boolean | false | Determines if force push is used.                                                                                                                                                                                                                                                                               |
+| force_with_lease | boolean | false | Determines if force-with-lease push is used. Please specify the corresponding branch inside `ref` section of the checkout action e.g. `ref: ${{ github.head_ref }}`.                                                                                                                                                                                                                                                                            |
+| atomic | boolean | true | Determines if [atomic](https://git-scm.com/docs/git-push#Documentation/git-push.txt---no-atomic) push is used.                                                                                                                                                     |
+| tags             | boolean | false | Determines if `--tags` is used.                                                                                                                                                                                                                                                                                 |
+| directory        | string | '.' | Directory to change to before pushing.                                                                                                                                                                                                                                                                          |
+| repository       | string | '' | Repository name. <br /> Default or empty repository name represents <br /> current github repository. <br /> If you want to push to other repository, <br /> you should make a [personal access token](https://github.com/settings/tokens) <br /> and use it as the `github_token` input.                       |
 
 ## Troubeshooting
 
-Please be aware, if your job fails and the corresponding output log looks like the following error, update your used verson of the action to `ad-m/github-push-action@master`:
+Please be aware, if your job fails and the corresponding output log looks like the following error, update your used version of the action to `ad-m/github-push-action@master`:
 ```log
 Push to branch ***************
 fatal: unsafe repository ('/github/workspace' is owned by someone else)
@@ -86,6 +136,15 @@ To add an exception for this directory, call:
 
 	git config --global --add safe.directory /github/workspace
 ```
+
+If you see the following error inside the output of the job, and you want to update an existing Tag:
+```log
+To https://github.com/Test/test_repository
+ ! [rejected]        0.0.9 -> 0.0.9 (stale info)
+error: failed to push some refs to 'https://github.com/Test/test_repository'
+```
+
+Please use the `force` instead the `force_with_lease` parameter. The update of the tag is with the `--force-with-lease` parameter not possible.
 
 ## License
 
