@@ -14,10 +14,6 @@ echo "Push to branch $INPUT_BRANCH";
     exit 1;
 };
 
-if ${INPUT_FORCE}; then
-    _FORCE_OPTION='--force-with-lease'
-fi
-
 if ${INPUT_TAGS}; then
     _TAGS='--tags'
 fi

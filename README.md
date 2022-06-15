@@ -49,6 +49,7 @@ jobs:
     - uses: actions/checkout@v3
       with:
         ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        persist-credentials: true
     - name: Create local changes
       run: |
         ...
