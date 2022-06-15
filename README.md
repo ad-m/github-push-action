@@ -39,6 +39,32 @@ jobs:
         branch: ${{ github.ref }}
 ```
 
+An example workflow to authenticate with GitHub Platform via Deploy Keys or in general SSH:
+
+```yaml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        persist-credentials: true
+    - name: Create local changes
+      run: |
+        ...
+    - name: Commit files
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -m "Add changes" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+      	ssh: true
+        branch: ${{ github.ref }}
+```
+
 ### Inputs
 
 | name | value | default | description |
