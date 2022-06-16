@@ -3,6 +3,7 @@ set -e
 
 INPUT_FORCE=${INPUT_FORCE:-false}
 INPUT_PULL_FIRST=${INPUT_PULL_FIRST:-false}
+INPUT_SSH=${INPUT_SSH:-false}
 INPUT_TAGS=${INPUT_TAGS:-false}
 INPUT_DIRECTORY=${INPUT_DIRECTORY:-'.'}
 _FORCE_OPTION=''
@@ -15,8 +16,8 @@ echo "Push to branch $INPUT_BRANCH";
 };
 
 if ${INPUT_FORCE}; then
-    _FORCE_OPTION='--force'
-fi
+     _FORCE_OPTION='--force'
+ fi
 
 if ${INPUT_TAGS}; then
     _TAGS='--tags'
@@ -24,7 +25,12 @@ fi
 
 cd ${INPUT_DIRECTORY}
 
-remote_repo="${INPUT_GITHUB_URL_PROTOCOL}//${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@${INPUT_GITHUB_URL}/${REPOSITORY}.git"
+if ${INPUT_SSH}; then
+    remote_repo="git@${INPUT_GITHUB_URL}:${REPOSITORY}.git"
+else
+    remote_repo="${INPUT_GITHUB_URL_PROTOCOL}//${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@${INPUT_GITHUB_URL}/${REPOSITORY}.git"
+fi
+
 git config --local --add safe.directory ${INPUT_DIRECTORY}
 
 if ${INPUT_PULL_FIRST}; then
