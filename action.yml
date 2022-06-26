@@ -26,6 +26,9 @@ inputs:
   force:
     description: 'Determines if force push is used'
     required: false
+  force_with_lease:
+    description: 'Determines if force-with-lease push is used'
+    required: false
   pull_first:
     description: 'Determines if the action should pull before the execution of the push command'
     required: false
