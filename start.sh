@@ -43,6 +43,9 @@ fi
 git config --local --add safe.directory ${INPUT_DIRECTORY}
 
 if ${INPUT_FORCE_WITH_LEASE}; then
+  echo "Force with Lease"
+  git status
+  git branch
   git push --follow-tags $_FORCE_OPTION $_TAGS;
 else
   git push "${remote_repo}" HEAD:${INPUT_BRANCH} --verbose --follow-tags $_FORCE_OPTION $_TAGS;
