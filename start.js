@@ -56,7 +56,7 @@ const main = async () => {
         env: {
             ...process.env,
             INPUT_BRANCH: branch,
-            INPUT_BASE_REF: process.env.INPUT_GITHUB_BASE_REF,
+            INPUT_BASE_REF: process.env.INPUT_GITHUB_REF,
             INPUT_REPOSITORY: repository,
             INPUT_GITHUB_URL_PROTOCOL: github_url_protocol,
             INPUT_GITHUB_URL: github_url,
