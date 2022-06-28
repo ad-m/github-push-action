@@ -47,6 +47,7 @@ if ${INPUT_FORCE_WITH_LEASE}; then
   if ${INPUT_TAGS}; then
       _FORCE_WITH_LEASE_TAGS="origin HEAD:${GITHUB_REF}"
   fi
+  echo "${_FORCE_WITH_LEASE_TAGS}"
   git push $_FORCE_WITH_LEASE_TAGS --verbose --follow-tags $_FORCE_OPTION $_TAGS;
 else
   git push "${remote_repo}" HEAD:${INPUT_BRANCH} --follow-tags $_FORCE_OPTION $_TAGS;
