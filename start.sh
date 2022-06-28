@@ -45,7 +45,7 @@ git config --local --add safe.directory ${INPUT_DIRECTORY}
 if ${INPUT_FORCE_WITH_LEASE}; then
   echo "Force with Lease"
   if ${INPUT_TAGS}; then
-      _FORCE_WITH_LEASE_TAGS="origin ${GITHUB_REF}"
+      _FORCE_WITH_LEASE_TAGS="origin HEAD:${GITHUB_REF}"
   fi
   git push $_FORCE_WITH_LEASE_TAGS --verbose --follow-tags $_FORCE_OPTION $_TAGS;
 else
