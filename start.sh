@@ -42,15 +42,12 @@ fi
 
 git config --local --add safe.directory ${INPUT_DIRECTORY}
 
-if ${INPUT_FORCE_WITH_LEASE}; then
-  echo "Force with Lease"
-  env
-  if ${INPUT_TAGS}; then
-      _FORCE_WITH_LEASE_TAGS="origin ${GITHUB_REF}"
-  fi
-  git push $_FORCE_WITH_LEASE_TAGS --verbose --follow-tags $_FORCE_OPTION $_TAGS;
-else
-  echo "git push "${remote_repo}" HEAD:${INPUT_BRANCH} --follow-tags $_FORCE_OPTION $_TAGS"
-  git push "${remote_repo}" HEAD:${INPUT_BRANCH} --follow-tags $_FORCE_OPTION $_TAGS;
+if !${INPUT_FORCE_WITH_LEASE}; then
+  ADDITIONAL_PARAMETER="${remote_repo} HEAD:${INPUT_BRANCH}"
 fi
+echo "PARAMETER"
+echo $ADDITIONAL_PARAMETER
+
+git push $ADDITIONAL_PARAMETER --follow-tags $_FORCE_OPTION $_TAGS;
+
 
