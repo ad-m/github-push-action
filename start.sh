@@ -42,7 +42,7 @@ fi
 
 git config --local --add safe.directory ${INPUT_DIRECTORY}
 
-if !${INPUT_FORCE_WITH_LEASE}; then
+if ! ${INPUT_FORCE_WITH_LEASE}; then
   ADDITIONAL_PARAMETER="${remote_repo} HEAD:${INPUT_BRANCH}"
 fi
 echo "PARAMETER"
