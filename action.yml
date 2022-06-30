@@ -7,11 +7,11 @@ branding:
 inputs:
   github_token:
     description: 'GitHub token or PAT token'
-    required: true
+    required: false
     default: ${{ github.token }}
   github_url:
     description: 'GitHub url or GitHub Enterprise url'
-    required: true
+    required: false
     default: ${{ github.server_url }}
   ssh:
     description: 'Specify if ssh should be used'
@@ -25,6 +25,9 @@ inputs:
     required: false
   force:
     description: 'Determines if force push is used'
+    required: false
+  force_with_lease:
+    description: 'Determines if force-with-lease push is used'
     required: false
   tags:
     description: 'Determines if --tags is used'
