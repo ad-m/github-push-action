@@ -29,6 +29,9 @@ inputs:
   force_with_lease:
     description: 'Determines if force-with-lease push is used'
     required: false
+  atomic:
+    description: 'Determines if atomic push is used, default true'
+    required: false
   tags:
     description: 'Determines if --tags is used'
     required: false
