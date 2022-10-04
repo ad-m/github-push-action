@@ -1,11 +1,13 @@
 #!/bin/sh
 set -e
 
+INPUT_ATOMIC=${INPUT_ATOMIC:-true}
 INPUT_FORCE=${INPUT_FORCE:-false}
 INPUT_FORCE_WITH_LEASE=${INPUT_FORCE_WITH_LEASE:-false}
 INPUT_SSH=${INPUT_SSH:-false}
 INPUT_TAGS=${INPUT_TAGS:-false}
 INPUT_DIRECTORY=${INPUT_DIRECTORY:-'.'}
+_ATOMIC_OPTION=''
 _FORCE_OPTION=''
 REPOSITORY=${INPUT_REPOSITORY:-$GITHUB_REPOSITORY}
 
@@ -18,6 +20,10 @@ echo "Push to branch $INPUT_BRANCH";
 if ${INPUT_FORCE} && ${INPUT_FORCE_WITH_LEASE}; then
   echo 'Please, specify only force or force_with_lease and not both.';
   exit 1;
+fi
+
+if ${INPUT_ATOMIC}; then
+    _ATOMIC_OPTION='--atomic'
 fi
 
 if ${INPUT_FORCE}; then
@@ -43,8 +49,8 @@ fi
 git config --local --add safe.directory ${INPUT_DIRECTORY}
 
 if ${INPUT_FORCE_WITH_LEASE}; then
-  git push --atomic --follow-tags $_FORCE_OPTION $_TAGS;
+  git push $_ATOMIC_OPTION --follow-tags $_FORCE_OPTION $_TAGS;
 else
-  git push "${remote_repo}" HEAD:${INPUT_BRANCH} --atomic --verbose --follow-tags $_FORCE_OPTION $_TAGS;
+  git push "${remote_repo}" HEAD:${INPUT_BRANCH} $_ATOMIC_OPTION --verbose --follow-tags $_FORCE_OPTION $_TAGS;
 fi
 
