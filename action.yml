@@ -40,5 +40,5 @@ inputs:
     required: false
     default: '.'
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'start.js'
