@@ -128,7 +128,7 @@ jobs:
 
 ## Troubeshooting
 
-Please be aware, if your job fails and the corresponding output log looks like the following error, update your used version of the action to `ad-m/github-push-action@master`:
+Please be aware, if your job fails and the corresponding output log looks like the following error, update your used version of the action to `ad-m/github-push-action@master` and check the used version of the `checkout` action (v2 is required):
 ```log
 Push to branch ***************
 fatal: unsafe repository ('/github/workspace' is owned by someone else)
