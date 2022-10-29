@@ -13,7 +13,7 @@ With ease:
 
 ### Example Workflow file
 
-An example workflow to authenticate with GitHub Platform:
+An example workflow to authenticate with GitHub Platform and to push the changes to a specified reference, e.g. an already available branch:
 
 ```yaml
 jobs:
@@ -31,12 +31,37 @@ jobs:
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git commit -m "Add changes" -a
+        git commit -a -m "Add changes"
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ github.ref }}
+```
+
+An example workflow to use the branch parameter to push the changes to a specified branch e.g. a Pull Request branch:
+
+```yaml
+name: Example
+on: [pull_request, pull_request_target]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
+        fetch-depth: 0
+    - name: Commit files
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -a -m "Add changes"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        branch: ${{ github.head_ref }}
 ```
 
 An example workflow to use the force-with-lease parameter to force push to a repository:
@@ -47,14 +72,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
+      with:
+        ref: ${{ github.head_ref }}
+        fetch-depth: 0
     - name: Commit files
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git commit -m "Add changes" -a
+        git commit -a -m "Add changes"
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
@@ -69,16 +94,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
+      with:
+        ref: ${{ github.head_ref }}
+        fetch-depth: 0
     - name: Commit files
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git tag -d $GITHUB_REF_NAME
         git tag $GITHUB_REF_NAME
-        git commit -m "Add changes" -a
+        git commit -a -m "Add changes"
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
@@ -104,11 +129,11 @@ jobs:
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git commit -m "Add changes" -a
+        git commit -a -m "Add changes"
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
-      	ssh: true
+        ssh: true
         branch: ${{ github.ref }}
 ```
 
