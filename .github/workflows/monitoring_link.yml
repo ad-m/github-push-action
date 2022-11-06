@@ -13,7 +13,7 @@ jobs:
     name: Validate links
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v3
     - name: Validate links
       uses: ad-m/report-link-action@master
       with:

@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v3
       - name: Verify action syntax
         # The action should not publish any real changes, but should succeed.
         uses: './'
