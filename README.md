@@ -151,7 +151,7 @@ jobs:
 | directory        | string | '.' | Directory to change to before pushing.                                                                                                                                                                                                                                                                          |
 | repository       | string | '' | Repository name. <br /> Default or empty repository name represents <br /> current github repository. <br /> If you want to push to other repository, <br /> you should make a [personal access token](https://github.com/settings/tokens) <br /> and use it as the `github_token` input.                       |
 
-## Troubeshooting
+## Troubleshooting
 
 Please be aware, if your job fails and the corresponding output log looks like the following error, update your used version of the action to `ad-m/github-push-action@master` and check the used version of the `checkout` action (v2 is required):
 ```log
