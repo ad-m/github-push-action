@@ -35,6 +35,9 @@ inputs:
   tags:
     description: 'Determines if --tags is used'
     required: false
+  push_only_tags:
+    description: 'Determines if the action should only push the tags, default false'
+    required: false
   directory:
     description: 'Directory to change to before pushing.'
     required: false
