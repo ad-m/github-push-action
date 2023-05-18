@@ -86,31 +86,6 @@ jobs:
         force_with_lease: true
 ```
 
-An example workflow to use the non default token push to another repository. Be aware that the force-with-lease flag is in such a case not possible:
-
-```yaml
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        ref: ${{ github.head_ref }}
-        fetch-depth: 0
-        token: ${{ secrets.PAT_TOKEN }}
-    - name: Commit files
-      run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git commit -a -m "Add changes"
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.PAT_TOKEN }}
-        repository: Test/test
-        force: true
-```
-
 An example workflow to update/ overwrite an existing tag:
 
 ```yaml
