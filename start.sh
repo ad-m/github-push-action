@@ -43,7 +43,7 @@ cd ${INPUT_DIRECTORY}
 if ${INPUT_SSH}; then
     remote_repo="git@${INPUT_GITHUB_URL}:${REPOSITORY}.git"
 else
-    remote_repo="${INPUT_GITHUB_URL_PROTOCOL}//${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@${INPUT_GITHUB_URL}/${REPOSITORY}.git"
+    remote_repo="${INPUT_GITHUB_URL_PROTOCOL}//${INPUT_GITHUB_TOKEN}:x-oauth-basic@${INPUT_GITHUB_URL}/${REPOSITORY}.git"
 fi
 
 git config --local --add safe.directory ${INPUT_DIRECTORY}
