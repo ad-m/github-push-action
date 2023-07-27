@@ -1,9 +1,10 @@
 'use strict';
 const spawn = require('child_process').spawn;
 const path = require("path");
+const http = require('http');
 const https = require('https');
 
-const get = (url, options = {}) => new Promise((resolve, reject) => https
+const get = (url, options = {}) => new Promise((resolve, reject) => ((url.protocol == "https:") ? https : http)
     .get(url, options, (res) => {
         const chunks = [];
         res.on('data', (chunk) => chunks.push(chunk));
