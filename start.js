@@ -66,6 +66,5 @@ const main = async () => {
 
 main().catch(err => {
     console.error(err);
-    console.error(err.stack);
-    process.exit(err.code || -1);
+    process.exit(-1);
 })
