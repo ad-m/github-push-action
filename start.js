@@ -1,9 +1,10 @@
 'use strict';
 const spawn = require('child_process').spawn;
-const path = require("path");
+const path = require('path');
+const http = require('http');
 const https = require('https');
 
-const get = (url, options = {}) => new Promise((resolve, reject) => https
+const get = (url, options = {}) => new Promise((resolve, reject) => ((new URL(url).protocol === 'http:') ? http : https)
     .get(url, options, (res) => {
         const chunks = [];
         res.on('data', (chunk) => chunks.push(chunk));
@@ -42,8 +43,8 @@ const trim = (value, charlist) => trimLeft(trimRight(value, charlist));
 const main = async () => {
     let branch = process.env.INPUT_BRANCH;
     const repository = trim(process.env.INPUT_REPOSITORY || process.env.GITHUB_REPOSITORY);
-    const github_url_protocol = trim(process.env.INPUT_GITHUB_URL).split("//")[0];
-    const github_url = trim(process.env.INPUT_GITHUB_URL).split("//")[1];
+    const github_url_protocol = trim(process.env.INPUT_GITHUB_URL).split('//')[0];
+    const github_url = trim(process.env.INPUT_GITHUB_URL).split('//')[1];
     if (!branch) {
         const headers = {
             'User-Agent': 'github.com/ad-m/github-push-action'
@@ -65,6 +66,5 @@ const main = async () => {
 
 main().catch(err => {
     console.error(err);
-    console.error(err.stack);
-    process.exit(err.code || -1);
+    process.exit(-1);
 })
