@@ -86,6 +86,36 @@ jobs:
         force_with_lease: true
 ```
 
+An example workflow to use a GitHub App Token together with the default token inside the checkout action. You can find more information on the topic [here](https://github.com/ad-m/github-push-action/issues/173):
+
+```yaml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
+        fetch-depth: 0
+        persist-credentials: false
+    - name: Generate Githup App Token
+      id: generate_token
+      uses: tibdex/github-app-token@v1
+      with:
+        app_id: ${{ secrets.APP_ID }}
+        installation_id: ${{ secrets.INSTALLATION_ID }}
+        private_key:  ${{ secrets.APP_PRIVATE_KEY }}
+    - name: Commit files
+      run: |
+        git config --local user.email "test@test.com"
+        git config --local user.name "Test"
+        git commit -a -m "Add changes"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ env.TOKEN }}
+```
+
 An example workflow to use the non default token push to another repository. Be aware that the force-with-lease flag is in such a case not possible:
 
 ```yaml
