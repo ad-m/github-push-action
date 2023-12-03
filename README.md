@@ -192,7 +192,7 @@ jobs:
         branch: ${{ github.ref }}
 ```
 
-An example workflow to push to a protected branch inside your own repository. Be aware that it's necessary to use a personal access token, and maybe it is a good idea to specify the force-with-lease flag in case of sync and push errors:
+An example workflow to push to a protected branch inside your repository. Be aware that it's necessary to use a personal access token and use it inside the `actions/checkout` action. It may be a good idea to specify the force-with-lease flag in case of sync and push errors. If you want to generate an adequate personal access token, you can [follow](docs/personal-acces-token.md#creation-of-a-personal-access-token) these instructions:
 
 ```yaml
 jobs:
