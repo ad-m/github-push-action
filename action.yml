@@ -32,6 +32,10 @@ inputs:
   atomic:
     description: 'Determines if atomic push is used, default true'
     required: false
+  push_to_submodules:
+    description: 'Determines if --recurse-submodules=<strategy> is used. The value defines the used strategy'
+    required: false
+    default: 'on-demand'
   tags:
     description: 'Determines if --tags is used'
     required: false
