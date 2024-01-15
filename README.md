@@ -9,6 +9,59 @@ With ease:
 - publish page using GitHub-Pages,
 - mirror changes to a separate repository.
 
+## Requirements and Prerequisites
+
+To ensure your GitHub Actions workflows function correctly, it's important to configure the `GITHUB_TOKEN` with the appropriate access rights for each repository. 
+
+Follow these steps to set up the necessary permissions:
+1. Navigate to your repository on GitHub.
+2. Click on `Settings` located in the repository toolbar.
+3. In the left sidebar, click on `Actions`.
+4. Under the `Actions` settings, find and click on `General`.
+5. Scroll down to the `Workflow permissions` section.
+6. You will see the default permission setting for the `GITHUB_TOKEN`. Click on the option for `Read and write permissions`.
+7. With this setting, your workflow will have the ability to read the contents of the repository and push back changes, which is required for using this GitHub Action.
+
+Make sure to save your changes before exiting the settings page.
+
+> [!NOTE]
+> 
+> Granting `Read and write permissions` allows workflows to modify your repository, which can include adding or updating files and code. Always ensure that you trust the workflows you enable with these permissions.
+ 
+
+![General Settings](docs/images/Github_Initial_Git_Push_Settings_General.png)
+
+![Workflow Settings](docs/images/Github_Initial_Git_Push_Settings_Actions.png)
+
+The `GITHUB_TOKEN` permissions can also be configured globally for all jobs in a workflow or individually for each job. This example demonstrates how to set the necessary permissions for the `contents` and `pull-requests` scopes on a job level:
+
+```yaml
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    permissions:                # Job-level permissions configuration starts here
+      contents: write           # 'write' access to repository contents
+      pull-requests: write      # 'write' access to pull requests
+    steps:
+      - uses: actions/checkout@v4
+```
+
+To apply permissions globally, which will affect all jobs within the workflow, you would define the `permissions` key at the root level of the workflow file, like so:
+
+```yaml
+permissions:                    # Global permissions configuration starts here
+  contents: read                # 'read' access to repository contents
+  pull-requests: write          # 'write' access to pull requests
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+```
+
+Adjust the permission levels and scopes according to your workflow's requirements. For further details on each permission level, consult the [GitHub documentation](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token).
+
+
 ## Usage
 
 ### Example Workflow file
@@ -192,7 +245,7 @@ jobs:
         branch: ${{ github.ref }}
 ```
 
-An example workflow to push to a protected branch inside your repository. Be aware that it's necessary to use a personal access token and use it inside the `actions/checkout` action. It may be a good idea to specify the force-with-lease flag in case of sync and push errors. If you want to generate an adequate personal access token, you can [follow](docs/personal-acces-token.md#creation-of-a-personal-access-token) these instructions:
+An example workflow to push to a protected branch inside your repository. Be aware that it is necessary to use a personal access token and use it inside the `actions/checkout` action. It may be a good idea to specify the force-with-lease flag in case of sync and push errors. If you want to generate an adequate personal access token, you can [follow](docs/personal-acces-token.md#creation-of-a-personal-access-token) these instructions:
 
 ```yaml
 jobs:
