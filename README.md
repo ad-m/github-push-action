@@ -24,7 +24,7 @@ Follow these steps to set up the necessary permissions:
 
 Make sure to save your changes before exiting the settings page.
 
-> **NOTE**
+> [!NOTE]
 > 
 > Granting `Read and write permissions` allows workflows to modify your repository, which can include adding or updating files and code. Always ensure that you trust the workflows you enable with these permissions.
  
