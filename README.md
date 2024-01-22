@@ -73,7 +73,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       with:
         persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
         fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
@@ -286,15 +286,6 @@ jobs:
 | repository         | string  | ''                    | Repository name. <br /> Default or empty repository name represents <br /> current github repository. <br /> If you want to push to other repository, <br /> you should make a [personal access token](https://github.com/settings/tokens) <br /> and use it as the `github_token` input.                       |
 
 ## Troubleshooting
-
-Please be aware, if your job fails and the corresponding output log looks like the following error, update your used version of the action to `ad-m/github-push-action@master` and check the used version of the `checkout` action (v2 is required):
-```log
-Push to branch ***************
-fatal: unsafe repository ('/github/workspace' is owned by someone else)
-To add an exception for this directory, call:
-
-	git config --global --add safe.directory /github/workspace
-```
 
 If you see the following error inside the output of the job, and you want to update an existing Tag:
 ```log

@@ -51,8 +51,6 @@ else
     remote_repo="${INPUT_GITHUB_URL_PROTOCOL}//oauth2:${INPUT_GITHUB_TOKEN}@${INPUT_GITHUB_URL}/${REPOSITORY}.git"
 fi
 
-git config --local --add safe.directory ${INPUT_DIRECTORY}
-
 if ! ${INPUT_FORCE_WITH_LEASE}; then
   ADDITIONAL_PARAMETERS="${remote_repo} HEAD:${INPUT_BRANCH}"
 fi
