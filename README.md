@@ -89,7 +89,7 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
+        branch: ${{ github.head_ref }}
 ```
 
 An example workflow to use the branch parameter to push the changes to a specified branch e.g. a Pull Request branch:
@@ -242,7 +242,7 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         ssh: true
-        branch: ${{ github.ref }}
+        branch: ${{ github.head_ref }}
 ```
 
 An example workflow to push to a protected branch inside your repository. Be aware that it is necessary to use a personal access token and use it inside the `actions/checkout` action. It may be a good idea to specify the force-with-lease flag in case of sync and push errors. If you want to generate an adequate personal access token, you can [follow](docs/personal-acces-token.md#creation-of-a-personal-access-token) these instructions:
@@ -276,7 +276,7 @@ jobs:
 |--------------------|---------|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | github_token       | string  | `${{ github.token }}` | [GITHUB_TOKEN](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow) <br /> or a repo scoped <br /> [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). |
 | ssh                | boolean | false                 | Determines if ssh/ Deploy Keys is used.                                                                                                                                                                                                                                                                         |
-| branch             | string  | (default)             | Destination branch to push changes. <br /> Can be passed in using `${{ github.ref }}`.                                                                                                                                                                                                                          |
+| branch             | string  | (default)             | Destination branch to push changes. <br /> Can be passed in using `${{ github.head_ref }}`.                                                                                                                                                                                                                          |
 | force              | boolean | false                 | Determines if force push is used.                                                                                                                                                                                                                                                                               |
 | force_with_lease   | boolean | false                 | Determines if force-with-lease push is used. Please specify the corresponding branch inside `ref` section of the checkout action e.g. `ref: ${{ github.head_ref }}`.                                                                                                                                            |
 | atomic             | boolean | true                  | Determines if [atomic](https://git-scm.com/docs/git-push#Documentation/git-push.txt---no-atomic) push is used.                                                                                                                                                                                                  |
