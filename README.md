@@ -1,11 +1,11 @@
 # GitHub Action for GitHub Push
 
-The GitHub Actions for pushing to GitHub repository local changes authorizing using GitHub token.
+The GitHub Actions for pushing local changes to Github using an authorized Github token.
 
-With ease:
+## Use Cases
 
-- update new code placed in the repository, e.g. by running a linter on it,
-- track changes in script results using Git as archive,
+- update new code placed in your repository, e.g. by running a linter on it,
+- track changes in script results using Git as an archive,
 - publish page using GitHub-Pages,
 - mirror changes to a separate repository.
 
@@ -30,7 +30,9 @@ Make sure to save your changes before exiting the settings page.
 
 ![Workflow Settings](docs/images/Github_Initial_Git_Push_Settings_Actions.png)
 
-The `GITHUB_TOKEN` permissions can also be configured globally for all jobs in a workflow or individually for each job. This example demonstrates how to set the necessary permissions for the `contents` and `pull-requests` scopes on a job level:
+The `GITHUB_TOKEN` permissions can also be configured globally for all jobs in a workflow or individually for each job.
+
+This example demonstrates how to set the necessary permissions for the `contents` and `pull-requests` scopes on a job level:
 
 ```yaml
 jobs:
