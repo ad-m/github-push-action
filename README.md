@@ -28,7 +28,7 @@ Make sure to save your changes before exiting the settings page.
 > 
 > Granting `Read and write permissions` allows workflows to modify your repository, including adding or updating files and code. Always ensure that you trust the workflows you enable with these permissions.
 
-![Settings-Workflow Permissions](https://github.com/jackton1/github-push-action/assets/17484350/a568d34e-23e1-460a-ad78-8b45ec28b056)
+![Settings-Workflow Permissions](docs/images/Github_Settings_Workflow_Permissions.jpeg)
 
 The `GITHUB_TOKEN` permissions can also be configured globally for all jobs in a workflow or individually for each job.
 
