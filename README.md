@@ -19,7 +19,7 @@ Follow these steps to set up the necessary permissions:
 3. In the left sidebar, click on `Actions`.
 4. Under the `Actions` settings, find and click on `General`.
 5. Scroll down to the `Workflow permissions` section.
-6. You will see the default permission setting for the `GITHUB_TOKEN`. Click on the option for `Read and write permissions`.
+6. You will see the default permission setting for the `GITHUB_TOKEN`. Click on the `Read and write permissions` option.
 7. With this setting, your workflow will have the ability to read the contents of the repository and push back changes, which is required for using this GitHub Action.
 
 Make sure to save your changes before exiting the settings page.
