@@ -20,15 +20,15 @@ Follow these steps to set up the necessary permissions:
 4. Under the `Actions` settings, find and click on `General`.
 5. Scroll down to the `Workflow permissions` section.
 6. You will see the default permission setting for the `GITHUB_TOKEN`. Click on the `Read and write permissions` option.
-7. With this setting, your workflow will have the ability to read the contents of the repository and push back changes, which is required for using this GitHub Action.
+7. With this setting, your workflow will be able to read the repository's contents and push back changes, which is required for using this GitHub Action.
 
 Make sure to save your changes before exiting the settings page.
 
 > [!NOTE]
 > 
-> Granting `Read and write permissions` allows workflows to modify your repository, which can include adding or updating files and code. Always ensure that you trust the workflows you enable with these permissions.
+> Granting `Read and write permissions` allows workflows to modify your repository, including adding or updating files and code. Always ensure that you trust the workflows you enable with these permissions.
 
-![Workflow Settings](docs/images/Github_Initial_Git_Push_Settings_Actions.png)
+![Settings-Workflow Permissions](https://github.com/jackton1/github-push-action/assets/17484350/a568d34e-23e1-460a-ad78-8b45ec28b056)
 
 The `GITHUB_TOKEN` permissions can also be configured globally for all jobs in a workflow or individually for each job.
 
