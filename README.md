@@ -1,6 +1,6 @@
 # GitHub Action for GitHub Push
 
-The GitHub Actions for pushing local changes to Github using an authorized Github token.
+The GitHub Actions for pushing local changes to GitHub using an authorized GitHub token.
 
 ## Use Cases
 
