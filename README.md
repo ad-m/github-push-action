@@ -1,11 +1,11 @@
 # GitHub Action for GitHub Push
 
-The GitHub Actions for pushing to GitHub repository local changes authorizing using GitHub token.
+The GitHub Actions for pushing local changes to GitHub using an authorized GitHub token.
 
-With ease:
+## Use Cases
 
-- update new code placed in the repository, e.g. by running a linter on it,
-- track changes in script results using Git as archive,
+- update new code placed in your repository, e.g. by running a linter on it,
+- track changes in script results using Git as an archive,
 - publish page using GitHub-Pages,
 - mirror changes to a separate repository.
 
@@ -19,21 +19,20 @@ Follow these steps to set up the necessary permissions:
 3. In the left sidebar, click on `Actions`.
 4. Under the `Actions` settings, find and click on `General`.
 5. Scroll down to the `Workflow permissions` section.
-6. You will see the default permission setting for the `GITHUB_TOKEN`. Click on the option for `Read and write permissions`.
-7. With this setting, your workflow will have the ability to read the contents of the repository and push back changes, which is required for using this GitHub Action.
+6. You will see the default permission setting for the `GITHUB_TOKEN`. Click on the `Read and write permissions` option.
+7. With this setting, your workflow will be able to read the repository's contents and push back changes, which is required for using this GitHub Action.
 
 Make sure to save your changes before exiting the settings page.
 
 > [!NOTE]
 > 
-> Granting `Read and write permissions` allows workflows to modify your repository, which can include adding or updating files and code. Always ensure that you trust the workflows you enable with these permissions.
- 
+> Granting `Read and write permissions` allows workflows to modify your repository, including adding or updating files and code. Always ensure that you trust the workflows you enable with these permissions.
 
-![General Settings](docs/images/Github_Initial_Git_Push_Settings_General.png)
+![Settings-Workflow Permissions](docs/images/Github_Settings_Workflow_Permissions.jpeg)
 
-![Workflow Settings](docs/images/Github_Initial_Git_Push_Settings_Actions.png)
+The `GITHUB_TOKEN` permissions can also be configured globally for all jobs in a workflow or individually for each job.
 
-The `GITHUB_TOKEN` permissions can also be configured globally for all jobs in a workflow or individually for each job. This example demonstrates how to set the necessary permissions for the `contents` and `pull-requests` scopes on a job level:
+This example demonstrates how to set the necessary permissions for the `contents` and `pull-requests` scopes on a job level:
 
 ```yaml
 jobs:
