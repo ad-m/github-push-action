@@ -1,4 +1,6 @@
-# GitHub Action for GitHub Push
+# GitHub Action for GitHub Push(with rebase)
+
+This is a slight modification of the [ad-m/github-push-action](https://github.com/ad-m/github-push-action) action.
 
 The GitHub Actions for pushing local changes to GitHub using an authorized GitHub token.
 
@@ -85,7 +87,7 @@ jobs:
         git config --local user.name "github-actions[bot]"
         git commit -a -m "Add changes"
     - name: Push changes
-      uses: ad-m/github-push-action@master
+      uses: HatePM/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ github.ref }}
@@ -111,7 +113,7 @@ jobs:
         git config --local user.name "github-actions[bot]"
         git commit -a -m "Add changes"
     - name: Push changes
-      uses: ad-m/github-push-action@master
+      uses: HatePM/github-push-action@master
       with:
         branch: ${{ github.head_ref }}
 ```
@@ -133,7 +135,7 @@ jobs:
         git config --local user.name "github-actions[bot]"
         git commit -a -m "Add changes"
     - name: Push changes
-      uses: ad-m/github-push-action@master
+      uses: HatePM/github-push-action@master
       with:
         force_with_lease: true
 ```
@@ -163,7 +165,7 @@ jobs:
         git config --local user.name "Test"
         git commit -a -m "Add changes"
     - name: Push changes
-      uses: ad-m/github-push-action@master
+      uses: HatePM/github-push-action@master
       with:
         github_token: ${{ env.TOKEN }}
 ```
@@ -186,7 +188,7 @@ jobs:
         git config --local user.name "Test"
         git commit -a -m "Add changes"
     - name: Push changes
-      uses: ad-m/github-push-action@master
+      uses: HatePM/github-push-action@master
       with:
         github_token: ${{ secrets.PAT_TOKEN }}
         repository: Test/test
@@ -212,7 +214,7 @@ jobs:
         git tag $GITHUB_REF_NAME
         git commit -a -m "Add changes"
     - name: Push changes
-      uses: ad-m/github-push-action@master
+      uses: HatePM/github-push-action@master
       with:
         force: true
         tags: true
@@ -238,7 +240,7 @@ jobs:
         git config --local user.name "github-actions[bot]"
         git commit -a -m "Add changes"
     - name: Push changes
-      uses: ad-m/github-push-action@master
+      uses: HatePM/github-push-action@master
       with:
         ssh: true
         branch: ${{ github.ref }}
@@ -262,7 +264,7 @@ jobs:
           git config --local user.name "Test"
           git commit -a -m "Add changes"
       - name: Push changes
-        uses: ad-m/github-push-action@master
+        uses: HatePM/github-push-action@master
         with:
           github_token: ${{ secrets.PAT_TOKEN }}
           repository: Test/test
