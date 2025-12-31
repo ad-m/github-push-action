@@ -38,5 +38,5 @@ inputs:
     required: false
     default: 1
 runs:
-  using: 'node20'
+  using: 'node16'
   main: 'start.js'
