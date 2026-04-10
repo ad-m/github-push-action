@@ -1,0 +1,23 @@
+name: Publish
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+
+  publish:
+    name: Publish the release version
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository and the branch
+        uses: actions/checkout@v4
+
+      - name: Setup the release version and overwrite the existing major version tag
+        run: |
+          major_version=$(echo $GITHUB_REF_NAME | cut -d. -f1)
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git tag -fa $major_version -m "Update $major_version tag and add version $GITHUB_REF_NAME to it"
+          git push origin $major_version --force

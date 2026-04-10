@@ -7,12 +7,15 @@ branding:
 inputs:
   github_token:
     description: 'GitHub token or PAT token'
-    required: true
+    required: false
     default: ${{ github.token }}
   github_url:
     description: 'GitHub url or GitHub Enterprise url'
-    required: true
+    required: false
     default: ${{ github.server_url }}
+  ssh:
+    description: 'Specify if ssh should be used'
+    required: false
   repository:
     description: 'Repository name to push. Default or empty value represents current github repository (${GITHUB_REPOSITORY})'
     default: ''
@@ -26,8 +29,21 @@ inputs:
   force:
     description: 'Determines if force push is used'
     required: false
+  force_with_lease:
+    description: 'Determines if force-with-lease push is used'
+    required: false
+  atomic:
+    description: 'Determines if atomic push is used, default true'
+    required: false
+  push_to_submodules:
+    description: 'Determines if --recurse-submodules=<strategy> is used. The value defines the used strategy'
+    required: false
+    default: 'on-demand'
   tags:
     description: 'Determines if --tags is used'
+    required: false
+  push_only_tags:
+    description: 'Determines if the action should only push the tags, default false'
     required: false
   directory:
     description: 'Directory to change to before pushing.'
@@ -38,5 +54,5 @@ inputs:
     required: false
     default: 1
 runs:
-  using: 'node16'
+  using: 'node24'
   main: 'start.js'
