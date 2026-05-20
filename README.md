@@ -269,23 +269,76 @@ jobs:
           force_with_lease: true
 ```
 
+An example workflow to pull remote changes before pushing (useful when multiple jobs or actors push to the same branch concurrently):
+
+> [!IMPORTANT]
+> The `pull` input requires the repository to be checked out **on a real branch** (not in detached HEAD state).  
+> `git pull` does not work in detached HEAD state and the action will abort with an error if this is detected.  
+> Make sure to pass an explicit `ref` to `actions/checkout` so that a branch is checked out, e.g. `ref: ${{ github.head_ref }}` for pull-request workflows or `ref: main` for push workflows.
+
+```yaml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.ref_name }}   # must be a branch, not a tag or SHA (detached HEAD)
+        fetch-depth: 0
+    - name: Create local changes
+      run: |
+        ...
+    - name: Commit files
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -a -m "Add changes"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+        pull: rebase   # pull --rebase before push; also accepts: merge | ff-only | true
+```
+
 ### Inputs
 
-| name               | value   | default               | description                                                                                                                                                                                                                                                                                                          |
-|--------------------|---------|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| github_token       | string  | `${{ github.token }}` | [GITHUB_TOKEN](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow) <br /> or a repo scoped <br /> [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).      |
-| ssh                | boolean | false                 | Determines if ssh/ Deploy Keys is used.                                                                                                                                                                                                                                                                              |
-| branch             | string  | (default)             | Destination branch to push changes. <br /> Can be passed in using `${{ github.ref }}`.                                                                                                                                                                                                                               |
-| force              | boolean | false                 | Determines if force push is used.                                                                                                                                                                                                                                                                                    |
-| force_with_lease   | boolean | false                 | Determines if force-with-lease push is used. Please specify the corresponding branch inside `ref` section of the checkout action e.g. `ref: ${{ github.head_ref }}`. Be aware, if you want to update the branch and the corresponding tag please use the `force` parameter instead of the `force_with_lease` option. |
-| atomic             | boolean | true                  | Determines if atomic push is used.                                                                                                                                                                                                       |
-| push_to_submodules | string  | 'on-demand'           | Determines if --recurse-submodules=<strategy> is used. The value defines the used strategy.                                                                                                                                                                                                                          |
-| push_only_tags     | boolean | false                 | Determines if the action should only push the tags, default false                                                                                                                                                                                                                                                    |
-| tags               | boolean | false                 | Determines if `--tags` is used.                                                                                                                                                                                                                                                                                      |
-| directory          | string  | '.'                   | Directory to change to before pushing.                                                                                                                                                                                                                                                                               |
-| repository         | string  | ''                    | Repository name. <br /> Default or empty repository name represents <br /> current github repository. <br /> If you want to push to other repository, <br /> you should make a [personal access token](https://github.com/settings/tokens) <br /> and use it as the `github_token` input.                            |
+| name               | value   | default               | description                                                                                                                                                                                                                                                                                                                      |
+|--------------------|---------|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| github_token       | string  | `${{ github.token }}` | [GITHUB_TOKEN](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow) <br /> or a repo scoped <br /> [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).                  |
+| ssh                | boolean | false                 | Determines if ssh/ Deploy Keys is used.                                                                                                                                                                                                                                                                                          |
+| branch             | string  | (default)             | Destination branch to push changes. <br /> Can be passed in using `${{ github.ref }}`.                                                                                                                                                                                                                                           |
+| force              | boolean | false                 | Determines if force push is used.                                                                                                                                                                                                                                                                                                |
+| force_with_lease   | boolean | false                 | Determines if force-with-lease push is used. Please specify the corresponding branch inside `ref` section of the checkout action e.g. `ref: ${{ github.head_ref }}`. Be aware, if you want to update the branch and the corresponding tag please use the `force` parameter instead of the `force_with_lease` option.             |
+| atomic             | boolean | true                  | Determines if atomic push is used.                                                                                                                                                                                                                                                                                               |
+| push_to_submodules | string  | 'on-demand'           | Determines if --recurse-submodules=<strategy> is used. The value defines the used strategy.                                                                                                                                                                                                                                      |
+| push_only_tags     | boolean | false                 | Determines if the action should only push the tags, default false                                                                                                                                                                                                                                                                |
+| tags               | boolean | false                 | Determines if `--tags` is used.                                                                                                                                                                                                                                                                                                  |
+| directory          | string  | '.'                   | Directory to change to before pushing.                                                                                                                                                                                                                                                                                           |
+| repository         | string  | ''                    | Repository name. <br /> Default or empty repository name represents <br /> current github repository. <br /> If you want to push to other repository, <br /> you should make a [personal access token](https://github.com/settings/tokens) <br /> and use it as the `github_token` input.                                        |
+| pull               | string  | false                 | Perform a `git pull` before pushing. Accepted values: `rebase` (or `true`) uses `--rebase`, `merge` uses `--no-rebase`, `ff-only` uses `--ff-only`. Leave unset or `false` to skip the pull entirely. **Requires a real branch to be checked out** (detached HEAD state is not supported — the action will abort with an error). |
 
 ## Troubleshooting
+
+If you see the following error when the `pull` input is enabled:
+
+```log
+Error: 'pull' is enabled but the repository is in detached HEAD state.
+git pull only works when a branch is currently checked out.
+```
+
+This means `actions/checkout` checked out a commit SHA or tag instead of a branch, leaving the repository in [detached HEAD state](https://git-scm.com/docs/git-checkout#_detached_head). `git pull` does not work in that state.
+
+**Fix:** Pass an explicit branch `ref` to `actions/checkout`:
+
+```yaml
+- uses: actions/checkout@v4
+  with:
+    ref: ${{ github.head_ref }}   # for pull_request workflows
+    # or
+    # ref: ${{ github.ref_name }} # for push workflows
+    fetch-depth: 0
+```
 
 If you see the following error inside the output of the job, and you want to update an existing Tag:
 ```log

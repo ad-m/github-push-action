@@ -46,6 +46,10 @@ inputs:
     description: 'Directory to change to before pushing.'
     required: false
     default: '.'
+  pull:
+    description: 'Determines if a pull should be performed before pushing. Accepts rebase, merge, ff-only, or true. When set to true, uses rebase. Default false. Requires the repository to be checked out on a real branch (not in detached HEAD state); the action will abort with an error if a detached HEAD is detected.'
+    required: false
+    default: 'false'
 runs:
   using: 'node24'
   main: 'start.js'
