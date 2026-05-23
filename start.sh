@@ -16,7 +16,9 @@ REPOSITORY=${INPUT_REPOSITORY:-$GITHUB_REPOSITORY}
 
 echo "Push to branch $INPUT_BRANCH";
 [ -z "${INPUT_GITHUB_TOKEN}" ] && {
-    echo "Missing input 'github_token: ${{ secrets.GITHUB_TOKEN }}'.";
+    echo "Missing input 'token' (or legacy 'github_token'). Please set one of:";
+    echo "  token: \${{ secrets.GITHUB_TOKEN }}";
+    echo "  github_token: \${{ secrets.GITHUB_TOKEN }}";
     exit 1;
 };
 
