@@ -5,6 +5,9 @@ branding:
   icon: upload-cloud
   color: green
 inputs:
+  token:
+    description: 'GitHub token or PAT token'
+    required: false
   github_token:
     description: 'GitHub token or PAT token'
     required: false
