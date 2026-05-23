@@ -49,8 +49,24 @@ fi
 
 cd ${INPUT_DIRECTORY}
 
+if git symbolic-ref --quiet HEAD > /dev/null 2>&1; then
+    _DETACHED_HEAD=false
+else
+    _DETACHED_HEAD=true
+fi
+
+if ${_DETACHED_HEAD}; then
+    echo "Warning: The repository is in a detached HEAD state.";
+    echo "This happens when actions/checkout checks out a tag, a commit SHA, or a";
+    echo "pull-request merge commit rather than a real branch.";
+    echo "To resolve this, check out a branch explicitly in your actions/checkout step,";
+    echo "for example: 'ref: \${{ github.head_ref }}' or 'ref: main'.";
+    echo "Note: setting this action's 'branch' input (e.g. branch: main) only controls";
+    echo "the push destination — it does not check out a branch in your workspace.";
+fi
+
 if [ "${INPUT_PULL}" != "false" ]; then
-  if ! git symbolic-ref --quiet HEAD > /dev/null 2>&1; then
+  if ${_DETACHED_HEAD}; then
     echo "Error: 'pull' is enabled but the repository is in detached HEAD state."
     echo "git pull only works when a branch is currently checked out."
     echo "Either disable the 'pull' input or check out a branch explicitly"
