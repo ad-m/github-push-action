@@ -14,7 +14,11 @@ _ATOMIC_OPTION=""
 _FORCE_OPTION=""
 REPOSITORY=${INPUT_REPOSITORY:-$GITHUB_REPOSITORY}
 
-echo "Push to branch $INPUT_BRANCH";
+if ${INPUT_PUSH_ONLY_TAGS}; then
+  echo "Push only tags";
+else
+  echo "Push to branch $INPUT_BRANCH";
+fi
 [ -z "${INPUT_GITHUB_TOKEN}" ] && {
     echo "Missing input 'token' (or legacy 'github_token'). Please set one of:";
     echo "  token: \${{ secrets.GITHUB_TOKEN }}";
