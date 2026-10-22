@@ -106,10 +106,11 @@ else
     remote_repo="${INPUT_GITHUB_URL_PROTOCOL}//oauth2:${INPUT_GITHUB_TOKEN}@${INPUT_GITHUB_URL}/${REPOSITORY}.git"
 fi
 
-if ! ${INPUT_FORCE_WITH_LEASE}; then
-  ADDITIONAL_PARAMETERS="${remote_repo} HEAD:${INPUT_BRANCH}"
-elif ${INPUT_PUSH_ONLY_TAGS}; then
+if ${INPUT_PUSH_ONLY_TAGS}; then
   ADDITIONAL_PARAMETERS="${remote_repo}"
+  _TAGS="--tags"
+elif ! ${INPUT_FORCE_WITH_LEASE}; then
+  ADDITIONAL_PARAMETERS="${remote_repo} HEAD:${INPUT_BRANCH}"
 fi
 
 if ${INPUT_FORCE_WITH_LEASE} && ${INPUT_TAGS}; then
