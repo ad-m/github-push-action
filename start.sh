@@ -10,8 +10,6 @@ INPUT_PUSH_ONLY_TAGS=${INPUT_PUSH_ONLY_TAGS:-false}
 INPUT_DIRECTORY=${INPUT_DIRECTORY:-"."}
 INPUT_PUSH_TO_SUBMODULES=${INPUT_PUSH_TO_SUBMODULES:-""}
 INPUT_PULL=${INPUT_PULL:-false}
-_ATOMIC_OPTION=""
-_FORCE_OPTION=""
 REPOSITORY=${INPUT_REPOSITORY:-$GITHUB_REPOSITORY}
 
 if ${INPUT_PUSH_ONLY_TAGS}; then
@@ -26,32 +24,12 @@ fi
     exit 1;
 };
 
-if ${INPUT_FORCE} && ${INPUT_FORCE_WITH_LEASE}; then
+if [ "${INPUT_FORCE}" = "true" ] && [ "${INPUT_FORCE_WITH_LEASE}" = "true" ]; then
   echo "Please, specify only force or force_with_lease and not both.";
   exit 1;
 fi
 
-if ${INPUT_ATOMIC}; then
-    _ATOMIC_OPTION="--atomic"
-fi
-
-if ${INPUT_FORCE}; then
-    _FORCE_OPTION="--force"
-fi
-
-if ${INPUT_FORCE_WITH_LEASE}; then
-    _FORCE_OPTION="--force-with-lease"
-fi
-
-if ${INPUT_TAGS} || ${INPUT_PUSH_ONLY_TAGS}; then
-    _TAGS="--tags"
-fi
-
-if [ -n "${INPUT_PUSH_TO_SUBMODULES}" ]; then
-  _INPUT_PUSH_TO_SUBMODULES="--recurse-submodules=${INPUT_PUSH_TO_SUBMODULES}"
-fi
-
-cd ${INPUT_DIRECTORY}
+cd "${INPUT_DIRECTORY}"
 
 if git symbolic-ref --quiet HEAD > /dev/null 2>&1; then
     _DETACHED_HEAD=false
@@ -59,7 +37,7 @@ else
     _DETACHED_HEAD=true
 fi
 
-if ${_DETACHED_HEAD}; then
+if [ "${_DETACHED_HEAD}" = "true" ]; then
     echo "Warning: The repository is in a detached HEAD state.";
     echo "This happens when actions/checkout checks out a tag, a commit SHA, or a";
     echo "pull-request merge commit rather than a real branch.";
@@ -69,19 +47,27 @@ if ${_DETACHED_HEAD}; then
     echo "the push destination — it does not check out a branch in your workspace.";
 fi
 
+# Resolved once and shared by pull and push. The token is not embedded in the
+# URL (it would show up in process arguments and git error messages); it is
+# handed to git through its environment as a host-scoped auth header instead.
+if [ "${INPUT_SSH}" = "true" ]; then
+    remote_repo="git@${INPUT_GITHUB_URL}:${REPOSITORY}.git"
+else
+    remote_repo="${INPUT_GITHUB_URL_PROTOCOL}//${INPUT_GITHUB_URL}/${REPOSITORY}.git"
+    _auth=$(printf 'oauth2:%s' "${INPUT_GITHUB_TOKEN}" | base64 | tr -d '\n')
+    _n=${GIT_CONFIG_COUNT:-0}
+    export "GIT_CONFIG_KEY_${_n}=http.${INPUT_GITHUB_URL_PROTOCOL}//${INPUT_GITHUB_URL}/.extraheader"
+    export "GIT_CONFIG_VALUE_${_n}=AUTHORIZATION: basic ${_auth}"
+    export GIT_CONFIG_COUNT=$((_n + 1))
+fi
+
 if [ "${INPUT_PULL}" != "false" ]; then
-  if ${_DETACHED_HEAD}; then
+  if [ "${_DETACHED_HEAD}" = "true" ]; then
     echo "Error: 'pull' is enabled but the repository is in detached HEAD state."
     echo "git pull only works when a branch is currently checked out."
     echo "Either disable the 'pull' input or check out a branch explicitly"
     echo "(e.g. add 'ref: \${{ github.head_ref }}' to the actions/checkout step)."
     exit 1
-  fi
-
-  if ${INPUT_SSH}; then
-    _pull_remote="git@${INPUT_GITHUB_URL}:${REPOSITORY}.git"
-  else
-    _pull_remote="${INPUT_GITHUB_URL_PROTOCOL}//oauth2:${INPUT_GITHUB_TOKEN}@${INPUT_GITHUB_URL}/${REPOSITORY}.git"
   fi
 
   case "${INPUT_PULL}" in
@@ -101,23 +87,31 @@ if [ "${INPUT_PULL}" != "false" ]; then
   esac
 
   echo "Pulling from ${INPUT_BRANCH} (strategy: ${INPUT_PULL}) before push..."
-  git pull ${_pull_strategy} "${_pull_remote}" "${INPUT_BRANCH}"
+  git pull "${_pull_strategy}" "${remote_repo}" "${INPUT_BRANCH}"
 fi
 
-if ${INPUT_SSH}; then
-    remote_repo="git@${INPUT_GITHUB_URL}:${REPOSITORY}.git"
-else
-    remote_repo="${INPUT_GITHUB_URL_PROTOCOL}//oauth2:${INPUT_GITHUB_TOKEN}@${INPUT_GITHUB_URL}/${REPOSITORY}.git"
+# Build the push argument list; "$@" keeps each argument intact (no word splitting).
+set --
+if [ "${INPUT_PUSH_ONLY_TAGS}" = "true" ]; then
+  # Never pushes the branch, only tags.
+  set -- "${remote_repo}"
+elif [ "${INPUT_FORCE_WITH_LEASE}" != "true" ]; then
+  set -- "${remote_repo}" "HEAD:${INPUT_BRANCH}"
 fi
 
-if ${INPUT_PUSH_ONLY_TAGS}; then
-  ADDITIONAL_PARAMETERS="${remote_repo}"
-elif ! ${INPUT_FORCE_WITH_LEASE}; then
-  ADDITIONAL_PARAMETERS="${remote_repo} HEAD:${INPUT_BRANCH}"
+[ -n "${INPUT_PUSH_TO_SUBMODULES}" ] && set -- "$@" "--recurse-submodules=${INPUT_PUSH_TO_SUBMODULES}"
+
+# --atomic is incompatible with --force-with-lease combined with --tags.
+if [ "${INPUT_ATOMIC}" = "true" ] && ! { [ "${INPUT_FORCE_WITH_LEASE}" = "true" ] && [ "${INPUT_TAGS}" = "true" ]; }; then
+  set -- "$@" "--atomic"
 fi
 
-if ${INPUT_FORCE_WITH_LEASE} && ${INPUT_TAGS}; then
-  _ATOMIC_OPTION=""
+set -- "$@" "--follow-tags"
+
+[ "${INPUT_FORCE}" = "true" ] && set -- "$@" "--force"
+[ "${INPUT_FORCE_WITH_LEASE}" = "true" ] && set -- "$@" "--force-with-lease"
+if [ "${INPUT_TAGS}" = "true" ] || [ "${INPUT_PUSH_ONLY_TAGS}" = "true" ]; then
+  set -- "$@" "--tags"
 fi
 
-git push $ADDITIONAL_PARAMETERS $_INPUT_PUSH_TO_SUBMODULES $_ATOMIC_OPTION --follow-tags $_FORCE_OPTION $_TAGS;
+git push "$@"
