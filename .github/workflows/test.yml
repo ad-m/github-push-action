@@ -1,0 +1,21 @@
+name: Tests
+
+on:
+  pull_request:
+  push:
+    branches: [master, main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Lint shell
+        run: shellcheck start.sh tests/*.sh
+      - name: Unit tests
+        run: bash tests/unit.sh
+      - name: E2E tests
+        run: bash tests/e2e.sh
