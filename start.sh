@@ -14,7 +14,11 @@ _ATOMIC_OPTION=""
 _FORCE_OPTION=""
 REPOSITORY=${INPUT_REPOSITORY:-$GITHUB_REPOSITORY}
 
-echo "Push to branch $INPUT_BRANCH";
+if ${INPUT_PUSH_ONLY_TAGS}; then
+  echo "Push only tags";
+else
+  echo "Push to branch $INPUT_BRANCH";
+fi
 [ -z "${INPUT_GITHUB_TOKEN}" ] && {
     echo "Missing input 'token' (or legacy 'github_token'). Please set one of:";
     echo "  token: \${{ secrets.GITHUB_TOKEN }}";
@@ -39,7 +43,7 @@ if ${INPUT_FORCE_WITH_LEASE}; then
     _FORCE_OPTION="--force-with-lease"
 fi
 
-if ${INPUT_TAGS}; then
+if ${INPUT_TAGS} || ${INPUT_PUSH_ONLY_TAGS}; then
     _TAGS="--tags"
 fi
 
@@ -106,10 +110,10 @@ else
     remote_repo="${INPUT_GITHUB_URL_PROTOCOL}//oauth2:${INPUT_GITHUB_TOKEN}@${INPUT_GITHUB_URL}/${REPOSITORY}.git"
 fi
 
-if ! ${INPUT_FORCE_WITH_LEASE}; then
-  ADDITIONAL_PARAMETERS="${remote_repo} HEAD:${INPUT_BRANCH}"
-elif ${INPUT_PUSH_ONLY_TAGS}; then
+if ${INPUT_PUSH_ONLY_TAGS}; then
   ADDITIONAL_PARAMETERS="${remote_repo}"
+elif ! ${INPUT_FORCE_WITH_LEASE}; then
+  ADDITIONAL_PARAMETERS="${remote_repo} HEAD:${INPUT_BRANCH}"
 fi
 
 if ${INPUT_FORCE_WITH_LEASE} && ${INPUT_TAGS}; then
