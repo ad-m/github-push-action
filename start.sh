@@ -43,7 +43,7 @@ if ${INPUT_FORCE_WITH_LEASE}; then
     _FORCE_OPTION="--force-with-lease"
 fi
 
-if ${INPUT_TAGS}; then
+if ${INPUT_TAGS} || ${INPUT_PUSH_ONLY_TAGS}; then
     _TAGS="--tags"
 fi
 
@@ -112,7 +112,6 @@ fi
 
 if ${INPUT_PUSH_ONLY_TAGS}; then
   ADDITIONAL_PARAMETERS="${remote_repo}"
-  _TAGS="--tags"
 elif ! ${INPUT_FORCE_WITH_LEASE}; then
   ADDITIONAL_PARAMETERS="${remote_repo} HEAD:${INPUT_BRANCH}"
 fi
